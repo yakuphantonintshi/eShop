@@ -2,7 +2,7 @@ import express from "express";
 import path from "path";
 import { connection as db } from "./config/index.js";
 import { createToken } from "./middleware/AuthenticateUser.js";
-import { hash } from "bcrypt";
+import { hash, compare } from "bcrypt";
 import bodyParser from "body-parser";
 
 // Create an express app
@@ -87,8 +87,8 @@ router.post("/register", async (req, res) => {
     db.query(strQry, [data], (err) => {
       if (err) {
         res.json({
-          status: res.statusCode,
-          msg: err,
+          status: 400,
+          msg: 'Unable to register a user',
         });
       } else {
         const token = createToken(user);
@@ -132,6 +132,73 @@ router.patch("/user/:id", async (req, res) => {
     });
   }
 });
+
+// delete user
+router.delete('/user/:id', (req,res) => {
+    try {
+        const strQry = `
+        DELETE FROM Users
+        WHERE userID = ${req.params.id}
+        
+        `
+        db.query(strQry, (err) => {
+            if (err) throw Error('Unable to delete the user')
+                res.json({
+                    status: res.statusCode,
+                    msg: 'A user\'s information was removed.'
+                })
+        })
+    }catch (e) {
+        res.json({
+            status: 404,
+            msg: e.message
+        })
+    }
+})
+
+// login
+router.post('/login', (req,res) => {
+    try {
+        const { emailAdd, pwd} = req.body
+        const strQry = `
+        SELECT userID, firstName, lastName, age, emailAdd, pwd
+        FROM Users
+        WHERE emailAdd = '${emailAdd}';
+        `
+        db.query(strQry, async (err, result) => {
+            if (err) throw new Error ('Invalid login details')
+                if (!result?.length) {
+                    res.json({
+                        status: 401,
+                        msg: 'You provided a wrong email'
+                    })
+                } else {
+                    const isValidPass = await compare(pwd, result[0].pwd)
+                    if (isValidPass) {
+                        const token = createToken({
+                            emailAdd,
+                            pwd
+                        })
+                        res.json({
+                            status: res.statusCode, 
+                            token,
+                            result: result[0]
+                        })
+                    } else {
+                        res.json({
+                            status: 401,
+                            msg: 'Invalid password or you have not registered'
+                        })
+                    }
+                }
+        })
+    } catch (e) {
+        res.json({
+            status: 404,
+            msg: e.message
+        })
+    }
+})
 
 router.get("*", (req, res) => {
   res.json({
