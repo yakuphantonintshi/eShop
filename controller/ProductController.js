@@ -38,5 +38,5 @@ productRouter.delete('/:id', verifyToken, (req, res) => {
 
 export{
     express,
-    productRouter
+    productRouter,
 }

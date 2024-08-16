@@ -15,7 +15,8 @@ function createToken(user){
     )
 }
 export {
-    createToken
+    createToken,
+    verifyToken
 }
 
 function verifyToken(req, res, next){
