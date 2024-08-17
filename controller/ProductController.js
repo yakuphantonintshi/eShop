@@ -7,7 +7,7 @@ const productRouter = express.Router()
 productRouter.use(bodyParser.json())
 
 // getting all products
-productRouter.get('/', verifyToken, (req, res) => {
+productRouter.get('/', (req, res) => {
     products.fetchProducts(req, res)
 })
 
@@ -22,7 +22,7 @@ productRouter.get('/:id', verifyToken, (req, res) => {
 })
 
 // add a new product
-productRouter.post('/add', verifyToken, (req, res) => {
+productRouter.post('/add', (req, res) => {
     products.addProduct(req, res)
 })
 

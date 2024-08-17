@@ -25,13 +25,13 @@ class Products {
     recentProducts(req, res) {
         try {
               const strQry = `
-              SELECT productID, prodName, category, prodDescri, amount
+              SELECT *
                 FROM Products
-                ORDERBY productID DESC 
+                ORDER BY productID DESC 
                 LIMIT 5;
               `
               db.query(strQry, (err, results) => {
-                if (err) throw new Error ('Unable to retrieve recent products')
+                if (err) throw new Error (err)
                     res.json({
                 status: res.statusCode,
                 results
