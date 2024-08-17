@@ -73,7 +73,7 @@ async registerUser(req, res) {
       } catch (e) {
         console.errow(e);
         res.status(500).json({
-          msg: "An error occured during registration",
+          err: "An error occured during registration",
         });
       }
 }
@@ -98,7 +98,7 @@ async updateUser(req, res) {
       } catch (e) {
         res.json({
           status: 400,
-          msg: e.message,
+          err: e.message,
         });
       }
 }
@@ -119,7 +119,7 @@ deleteUser(req, res) {
     }catch (e) {
         res.json({
             status: 404,
-            msg: e.message
+            err: e.message
         })
     }
 }
@@ -161,7 +161,7 @@ deleteUser(req, res) {
     } catch (e) {
         res.json({
             status: 404,
-            msg: e.message
+            err: e.message
         })
     }
  }
