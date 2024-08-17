@@ -1,12 +1,12 @@
 *,
 *::after,
-*::before{
+*::before {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
     display: none;
 }
 
@@ -17,30 +17,36 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-  }
-  
-  nav {
+}
+
+nav {
     padding: 30px;
-  }
-  
-  nav a {
+}
+
+nav a {
     font-weight: bold;
     color: #2c3e50;
-  }
-  
-  nav a.router-link-exact-active {
-    color: #42b983;
-  }
+}
 
-  /* Logo */
-  img[alt='logo']{
+nav a.router-link-exact-active {
+    color: #42b983;
+}
+
+body {
+    scroll-behavior: smooth;
+}
+
+/* Logo */
+img[alt='logo'] {
     width: 5rem;
     aspect-ratio: 1;
     object-fit: cover;
     object-position: center;
-  }
+}
 
-  .wrapper{
+.wrapper {
     display: grid;
     grid-template-rows: auto minmax(100dvh, 100%) auto;
-  }
+}
+
+/* Recent products */
