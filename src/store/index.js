@@ -7,7 +7,7 @@ import 'vue3-toastify/dist/index.css'
 
 // const {cookies} = useCookies()
 
-const apiURL = 'http://localhost:3001/'
+const apiURL = 'https://eshop-amu7.onrender.com/'
 
 export default createStore({
   state: {
@@ -43,6 +43,78 @@ export default createStore({
         console.log(results);
         if (results) {
           context.commit('setRecentProducts', results)
+        } else {
+          toast.error(`${msg}`, {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_CENTER
+          })
+        }
+      } catch (e) {
+        toast.error(`${e.message}`, {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_CENTER
+        })
+      }
+    },
+    async fetchProducts(context) {
+      try {
+        const { results, msg} = await (await axios.get(`${apiURL}product`)).data
+        if (results) {
+          context.commit('setProducts', results)
+        } else {
+          toast.error(`${msg}`, {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_CENTER
+          })
+        }
+      } catch (e) {
+        toast.error(`${e.message}`, {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_CENTER
+        })
+      }
+    },
+    async fetchProduct(context, id) {
+      try {
+        const { result, msg} = await (await axios.get(`${apiURL}product/${id}`)).data
+        if (result) {
+          context.commit('setProduct', result)
+        } else {
+          toast.error(`${msg}`, {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_CENTER
+          })
+        }
+      } catch (e) {
+        toast.error(`${e.message}`, {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_CENTER
+        })
+      }
+    },
+    async fetchUsers(context) {
+      try {
+        const { result, msg} = await (await axios.get(`${apiURL}user`)).data
+        if (result) {
+          context.commit('setUsers', result)
+        } else {
+          toast.error(`${msg}`, {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_CENTER
+          })
+        }
+      } catch (e) {
+        toast.error(`${e.message}`, {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_CENTER
+        })
+      }
+    },
+    async fetchUser(context, id) {
+      try {
+        const { result, msg} = await (await axios.get(`${apiURL}user/${id}`)).data
+        if (result) {
+          context.commit('setUser', result)
         } else {
           toast.error(`${msg}`, {
             autoClose: 2000,
